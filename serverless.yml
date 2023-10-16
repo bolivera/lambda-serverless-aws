@@ -1,0 +1,100 @@
+service: reto-lambda-serverless-bolvera
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-2:492804555841:table/pokemons_table
+        - arn:aws:dynamodb:us-west-2:492804555841:table/planet_table
+
+functions:
+  
+  getPlanet:
+    handler: src/public/api/v1/getPlanetApi.getPlanetApi
+    events:
+      - httpApi:
+          path: /api/v1/planets/{id}
+          method: get
+          
+  savePokemon:
+    handler: src/public/api/v1/createPokemon.createPokemon
+    events:
+      - httpApi:
+          path: /api/v1/pokemons
+          method: post
+          
+  getPokemon:
+    handler: src/public/api/v1/getPokemon.getPokemon
+    events:
+      - httpApi:
+          path: /api/v1/pokemon/{pokemonId}
+          method: get
+          
+  updatePokemon:
+    handler: src/public/api/v1/updatePokemon.updatePokemon
+    events:
+      - httpApi:
+          path: /api/v1/pokemons/{pokemonId}
+          method: put
+
+  deletePokemon:
+    handler: src/public/api/v1/deletePokemon.deletePokemon
+    events:
+      - httpApi:
+          path: /api/v1/pokemons/{pokemonId}
+          method: delete
+          
+  getPokemons:
+    handler: src/public/api/v1/getPokemons.getPokemons
+    events:
+      - httpApi:
+          path: /pokemons
+          method: get
+
+  generateSwagger:
+    handler: src/public/documentation/swagger.handler
+    description: Generate Swagger documentation
+    events:
+      - http:
+          path: /api/documentation
+          method: get
+          
+resources:
+  Resources:
+    PokemonsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: pokemons_table
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: pokemonId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pokemonId
+            KeyType: HASH
+
+    PlanetTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: planet_table
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+            
+plugins:
+  - serverless-offline
+
+custom:
+  swagger:
+    documentationEndpoint: api/documentation
+    swaggerDefinitionFile: src/public/documentation/swagger-definition.yaml
