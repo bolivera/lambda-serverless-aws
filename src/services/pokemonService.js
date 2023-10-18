@@ -8,23 +8,22 @@ class PokemonService {
         return PokemonRepository.getAll();
     }
 
-    static getPokemonById(id) {
-        console.log(PokemonRepository.getById(id));
-        return PokemonRepository.getById(id);
+    static async getPokemonById(id) {
+        return  await PokemonRepository.getById(id);
     }
 
-    static createPokemon(name, type, evolution) {
+    static async createPokemon(name, type, evolution) {
         const id = uuidv4()
         const newPokemon = new Pokemon(id, name, type, evolution);
-        PokemonRepository.create(newPokemon);
+        return await PokemonRepository.create(newPokemon);
     }
 
-    static updatePokemon(id, updatedPokemon) {
-        PokemonRepository.update(id, updatedPokemon);
+    static async updatePokemon(id, updatedPokemon) {
+        return await PokemonRepository.update(id, updatedPokemon);
     }
 
-    static deletePokemon(id) {
-        PokemonRepository.delete(id);
+    static async deletePokemon(id) {
+        return await PokemonRepository.delete(id);
     }
 }
 

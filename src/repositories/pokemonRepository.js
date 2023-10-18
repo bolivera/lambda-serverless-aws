@@ -5,7 +5,7 @@ const dynamodbInstance = require('../config/DynamoDBSingleton');
 class PokemonRepository {
     static async create(pokemon) {
         const dynamodb = dynamodbInstance.getInstance();
-        await dynamodb.put({
+       return await dynamodb.put({
             TableName: db.pokemonTable,
             Item: pokemon
         }).promise();

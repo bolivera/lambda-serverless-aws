@@ -42,13 +42,6 @@ functions:
       - httpApi:
           path: /api/v1/pokemons/{pokemonId}
           method: put
-
-  deletePokemon:
-    handler: src/public/api/v1/deletePokemon.deletePokemon
-    events:
-      - httpApi:
-          path: /api/v1/pokemons/{pokemonId}
-          method: delete
           
   getPokemons:
     handler: src/public/api/v1/getPokemons.getPokemons
