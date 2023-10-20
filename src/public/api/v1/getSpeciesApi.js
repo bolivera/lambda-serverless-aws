@@ -1,14 +1,14 @@
 const axios = require("axios");
 
-const { validatePlanet } = require("../../../utils/validation");
+const { validateEspecies } = require("../../../utils/validation");
 const { api } = require("../../../config/db.config");
-const Planet = require("../../../models/planetModel");
-const PlanetService = require("../../../services/planetService");
+const Species = require("../../../models/SpeciesModel");
+const SpecieService = require("../../../services/specieService");
 
-const getPlanetApi = async (event) => {
+const getSpecies = async (event) => {
   try {
     const { id } = event.pathParameters;
-    const validationResult = validatePlanet(event.pathParameters);
+    const validationResult = validateEspecies(event.pathParameters);
     if (validationResult.error) {
       return {
         statusCode: 400,
@@ -19,14 +19,15 @@ const getPlanetApi = async (event) => {
     }
 
     const { swapi } = api;
-    const url = swapi + `/planets/${id}`;
+    const url = swapi + `/species/${id}`;
     const response = await axios.get(url);
     const status = response.status;
     const { data } = await response;
+
     if (status == 200) {
-      var planet = new Planet(data, id);
+       var specie = new Species(data, id);
       try {
-        await PlanetService.createPlanet(planet);
+        await SpecieService.createSpecie(specie);
       } catch (error) {
         console.error(error);
       }
@@ -34,11 +35,11 @@ const getPlanetApi = async (event) => {
     return {
       statusCode: status,
       body: JSON.stringify({
-        payload: planet,
+        payload: specie,
       }),
     };
-    
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Error interno del servidor" }),
@@ -46,4 +47,4 @@ const getPlanetApi = async (event) => {
   }
 };
 
-module.exports = { getPlanetApi };
+module.exports = { getSpecies };

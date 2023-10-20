@@ -3,7 +3,7 @@ module.exports = {
     info: {
         title: 'TEST-INDRA',
         version: '1.0.0',
-        description: 'API para listar servicios Pokemon - Planetas',
+        description: 'API para listar servicios Species - Planetas',
     },
     paths: {
         '/api/v1/planets/{id}': {

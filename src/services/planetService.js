@@ -1,6 +1,4 @@
 const PlanetRepository = require('../repositories/planetRepository');
-const Planet = require('../models/planetModel');
-
 
 class PlanetService {
 

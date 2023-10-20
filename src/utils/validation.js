@@ -10,19 +10,31 @@ const customMessages = {
 };
 
 
-const pokemonSchema = Joi.object({
-  name: Joi.string().required().messages(customMessages),
-  type: Joi.string().required().messages(customMessages),
-  evolution: Joi.string().messages(customMessages),
-});
-
 const validPlanet = Joi.object({
   id: Joi.number().required().messages(customMessages),
 });
 
+const validateEspecies = Joi.object({
+  id: Joi.number().required().messages(customMessages),
+});
 
+const validateNewSpecies = Joi.object({
+  name: Joi.string().required(),
+  classification: Joi.string().required(),
+  designation: Joi.string(),
+  average_height: Joi.string(),
+  skin_colors: Joi.string(),
+  hair_colors: Joi.string(),
+  eye_colors: Joi.string(),
+  average_lifespan: Joi.string(),
+  language: Joi.string(),
+  created: Joi.string(),
+  edited: Joi.string(),
+  homeworld: Joi.string()
+});
 
 module.exports = {
-  validatePokemon: (data) => pokemonSchema.validate(data),
+  validateEspecies: (data) => validateEspecies.validate(data),
+  validateNewSpecies: (data) => validateNewSpecies.validate(data),
   validatePlanet: (data) => validPlanet.validate(data)
 };

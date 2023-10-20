@@ -13,6 +13,7 @@ class PlanetRepository {
             console.error('Error:', error);
         }
     }
+    
     static async create(planet) {
         const dynamodb = dynamodbInstance.getInstance();
         await dynamodb.put({
@@ -20,9 +21,6 @@ class PlanetRepository {
             Item: planet
         }).promise();
     }
-
-    
-
 
 }
 

@@ -10,8 +10,6 @@ class Planet {
         this.terreno = data.terrain
         this.superficie_agua = data.surface_water
         this.poblacion = data.population
-        this.residentes = data.residents
-        this.peliculas = data.films
         this.creado = data.created
         this.editado = data.edited
     }

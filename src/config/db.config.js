@@ -1,6 +1,6 @@
 module.exports = {
     db: {
-        pokemonTable: "pokemons_table",
+        specieTable: "specie_table",
         planetTable: "planet_table"
     },
     api: {

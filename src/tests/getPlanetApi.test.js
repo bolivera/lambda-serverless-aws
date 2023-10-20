@@ -23,7 +23,7 @@ describe('getPlanetApi', () => {
     const request = { pathParameters: { id: invalidId } };
     const response = await getPlanetApi(request);
     expect(response.statusCode).toBe(400);
-    expect(response.body).toEqual({ error: 'El campo debe ser un número' });
+    expect(response.body).toEqual(JSON.stringify({ error: 'El campo debe ser un número' }));
   });
 
   it('should return a 500 status on internal server error', async () => {
@@ -31,7 +31,7 @@ describe('getPlanetApi', () => {
     const request = { pathParameters: { id: 1 } };
     const response = await getPlanetApi(request);
     expect(response.statusCode).toBe(500);
-    expect(response.body).toEqual({ error: 'Internal Server Error' });
+    expect(response.body).toEqual(JSON.stringify({ error: 'Error interno del servidor' }));
   });
 
 });

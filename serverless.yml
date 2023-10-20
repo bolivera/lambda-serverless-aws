@@ -10,8 +10,8 @@ provider:
       Action:
         - dynamodb:*
       Resource:
-        - arn:aws:dynamodb:us-east-2:492804555841:table/pokemons_table
         - arn:aws:dynamodb:us-west-2:492804555841:table/planet_table
+        - arn:aws:dynamodb:us-west-2:492804555841:table/specie_table
 
 functions:
   
@@ -19,35 +19,29 @@ functions:
     handler: src/public/api/v1/getPlanetApi.getPlanetApi
     events:
       - httpApi:
-          path: /api/v1/planets/{id}
+          path: /api/v1/planet/{id}
           method: get
-          
-  savePokemon:
-    handler: src/public/api/v1/createPokemon.createPokemon
+
+  getSpecie :
+    handler: src/public/api/v1/getSpeciesApi.getSpecies
     events:
       - httpApi:
-          path: /api/v1/pokemons
+          path: /api/v1/specie/{id}
+          method: get
+
+  saveSpecie:
+    handler: src/public/api/v1/createSpecieApi.createSpecie
+    events:
+      - httpApi:
+          path: /api/v1/specie
           method: post
-          
-  getPokemon:
-    handler: src/public/api/v1/getPokemon.getPokemon
+
+  getAllSpecies :
+    handler: src/public/api/v1/getAllSpeciesApi.getAllSpecies
+    description: Listar todas las "Species"
     events:
       - httpApi:
-          path: /api/v1/pokemon/{pokemonId}
-          method: get
-          
-  updatePokemon:
-    handler: src/public/api/v1/updatePokemon.updatePokemon
-    events:
-      - httpApi:
-          path: /api/v1/pokemons/{pokemonId}
-          method: put
-          
-  getPokemons:
-    handler: src/public/api/v1/getPokemons.getPokemons
-    events:
-      - httpApi:
-          path: /pokemons
+          path: /api/v1/species-all
           method: get
 
   generateSwagger:
@@ -57,20 +51,10 @@ functions:
       - http:
           path: /api/documentation
           method: get
-          
+
+
 resources:
   Resources:
-    PokemonsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: pokemons_table
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: pokemonId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: pokemonId
-            KeyType: HASH
 
     PlanetTable:
       Type: AWS::DynamoDB::Table
@@ -83,7 +67,19 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-            
+
+    SpecieTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: specie_table
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
 plugins:
   - serverless-offline
 
